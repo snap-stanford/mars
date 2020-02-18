@@ -40,7 +40,7 @@ mars.name_cell_types(adata, landmarks, cell_type_name_map)
 Example of the MARS naming approach:
 
 <p align="center">
-<img src="https://github.com/mbrbic/mars/blob/master/images/MARS_naming.png" width="800" align="center">
+<img src="https://github.com/mbrbic/mars/blob/master/images/MARS_naming.png" width="600" align="center">
 </p>
 
 Example of running MARS on Tabula Muris dataset in leave-one-tissue-out manner is provided in the main.py.
