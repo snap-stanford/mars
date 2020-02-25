@@ -1,6 +1,6 @@
 # MARS
 
-PyTorch implementation of MARS, a meta-learning method for cell type discovery in heterogenous single-cell data.  MARS annotates known and new cell types by transferring latent cell representations across multiple datasets. It is able to discover cell types that have never been seen before and characterize experiments that are yet unannotated. For a detailed description of the algorithm, please see our preprint [Discovering Novel Cell Types in Heterogeneous Single-cell Transcriptomics](TODO) (2020).
+PyTorch implementation of MARS, a meta-learning method for cell type discovery in heterogenous single-cell data.  MARS annotates known and new cell types by transferring latent cell representations across multiple datasets. It is able to discover cell types that have never been seen before and characterize experiments that are yet unannotated. For a detailed description of the algorithm, please see our preprint [Discovering Novel Cell Types across Heterogeneous Single-cell Experiments](TODO) (2020).
 
 
 <p align="center">
