@@ -38,7 +38,7 @@ class MacaData():
             sc.pp.scale(adata, max_value=10, zero_center=True)
             adata[np.isnan(adata.X)] = 0 
 
-        adata = adata[adata.obs['tissue']!='Marrow',:]
+        #adata = adata[adata.obs['tissue']!='Marrow',:]
         
         return adata
     
@@ -61,5 +61,3 @@ class MacaData():
         self.adata.obs['truth_labels'] = pd.Categorical(values=truth_labels)
          
         return mapping
-    
-#md = MacaData('/Users/maria/Documents/Stanford/Single-cell RNA/biohub data/tabula-muris-senis-facs-official-annotations.h5ad')
