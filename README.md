@@ -49,7 +49,7 @@ Example of running MARS on Tabula Muris dataset in leave-one-tissue-out manner i
 ## Datasets
 
 Tabula Muris Senis datasets used in our study can be downloaded from [https://figshare.com/projects/Tabula\_Muris\_Senis/64982](https://figshare.com/projects/Tabula\_Muris\_Senis/64982).
-Dataset used in h5ad format can be downladed from [http://snap.stanford.edu/mars/data/tms-facs-mars.tar.gz][http://snap.stanford.edu/mars/data/tms-facs-mars.tar.gz].
+Dataset used in h5ad format can be downladed from [http://snap.stanford.edu/mars/data/tms-facs-mars.tar.gz](http://snap.stanford.edu/mars/data/tms-facs-mars.tar.gz).
 
 ## Contact
 Please contact Maria Brbic at mbrbic@cs.stanford.edu for questions.
