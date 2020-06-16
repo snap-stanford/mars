@@ -52,6 +52,8 @@ Tabula Muris Senis datasets used in our study can be downloaded from [https://fi
 
 Dataset in h5ad format can be downladed from [http://snap.stanford.edu/mars/data/tms-facs-mars.tar.gz](http://snap.stanford.edu/mars/data/tms-facs-mars.tar.gz).
 
+Saved models for each tissue in Tabula Muris can be downladed from [http://snap.stanford.edu/mars/data/TM_trained_models.tar.gz](http://snap.stanford.edu/mars/data/TM_trained_models.tar.gz).
+
 ## Contact
 Please contact Maria Brbic at mbrbic@cs.stanford.edu for questions.
 
