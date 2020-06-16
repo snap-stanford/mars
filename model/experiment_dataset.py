@@ -24,8 +24,9 @@ class ExperimentDataset(data.Dataset):
         super(ExperimentDataset, self).__init__()
         
         self.nitems = x.shape[0]
-        print("== Dataset: Found %d items " % x.shape[0])
-        print("== Dataset: Found %d classes" % len(np.unique(y)))
+        if len(y)>0:
+            print("== Dataset: Found %d items " % x.shape[0])
+            print("== Dataset: Found %d classes" % len(np.unique(y)))
                 
         if type(x)==torch.Tensor:
             self.x = x
@@ -48,18 +49,5 @@ class ExperimentDataset(data.Dataset):
     def get_dim(self):
         return self.x[0].shape[0]
     
-    
-def load_data(tissue, src_dir='dataset/cell_data/', facs=True): # FIXME
-    if facs:
-        data_type = 'facs/'
-    else: # droplet
-        data_type = 'droplet/'
-    x = np.loadtxt(src_dir+data_type+tissue+'/X', dtype=np.float32)
-    y = np.loadtxt(src_dir+data_type+tissue+'/y', dtype=np.int32)
 
-    with open(src_dir+data_type+tissue+'/cells.tsv') as f:
-        data = f.readlines()
-    cells = [d.strip() for d in data]
-    
-    return x,y,cells
 

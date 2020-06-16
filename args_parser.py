@@ -38,7 +38,7 @@ def get_parser():
     parser.add_argument('-lrS', '--lr_scheduler_step',
                         type=int,
                         help='StepLR learning rate scheduler step, default=20',
-                        default=20)  # 20 za 0.9. pocni od .005
+                        default=20) 
 
     parser.add_argument('-lrG', '--lr_scheduler_gamma',
                         type=float,
@@ -48,7 +48,7 @@ def get_parser():
     parser.add_argument('-seed', '--manual_seed',
                         type=int,
                         help='input for the manual seeds initializations',
-                        default=25)
+                        default=3)
     
     parser.add_argument('--cuda',
                         action='store_true',

@@ -11,6 +11,7 @@ import anndata
 from scipy.spatial import distance
 import scanpy.api as sc
 from collections import OrderedDict
+from collections import defaultdict
 
 from model.loss import loss_task, loss_test, reconstruction_loss
 from model.net import FullNet
@@ -91,10 +92,12 @@ class MARS:
                 loss.backward()                    
                 optim.step() 
     
-    def train(self, evaluation_mode=False):
+    def train(self, evaluation_mode=True, save_all_embeddings=True):
         """Train model.
         evaluation_mode: if True, validates model on the unlabeled dataset. In the evaluation mode, ground truth labels
-                        of the unlabeled dataset must be provided to validate model, but they are not used for the prediction
+                        of the unlabeled dataset must be provided to validate model
+        save_all_embeddings: if True, MARS embeddings for annotated and unannotated experiments will be saved in an anndata object,
+                             otherwise only unnanotated will be saved. If naming is called after, all embeddings need to be saved
         return: adata: anndata object containing labeled and unlabeled meta-dataset with MARS embeddings and estimated labels on the
                         unlabeled dataset
                 landmk_all: landmarks of the labeled and unlabeled meta-dataset in the order given for training. Landmarks on the unlabeled
@@ -127,7 +130,7 @@ class MARS:
                                               landmk_tr, landmk_test)
             if epoch==self.epochs: 
                 print('\n=== Epoch: {} ==='.format(epoch))
-                print('Train loss: {}, acc: {}'.format(loss_tr, acc_tr))
+                print('Train acc: {}'.format(acc_tr))
             if self.val_loader is None:
                 continue
             self.model.eval()
@@ -150,7 +153,7 @@ class MARS:
         
         adata_test, eval_results = self.assign_labels(landmk_all[-1], evaluation_mode)
         
-        adata = self.save_result(tr_iter, adata_test)
+        adata = self.save_result(tr_iter, adata_test, save_all_embeddings)
         
         if evaluation_mode:
             return adata, landmk_all, eval_results
@@ -158,24 +161,30 @@ class MARS:
         return adata, landmk_all
     
     
-    def save_result(self, tr_iter, adata_test):
+    def save_result(self, tr_iter, adata_test, save_all_embeddings):
         """Saving embeddings from labeled and unlabeled dataset, ground truth labels and 
         predictions to joint anndata object."""
         adata_all = []
-        for task in range(len(tr_iter)): # saving embeddings from labeled dataset
-            task = int(task)
-            x, y, cells = next(tr_iter[task])
-            x, y = x.to(self.device), y.to(self.device)
-            encoded,_ = self.model(x)
-            adata_all.append(self.pack_anndata(x, cells, encoded, gtruth=y))
+
+        if save_all_embeddings:
+            for task in range(len(tr_iter)): # saving embeddings from labeled dataset
+                task = int(task)
+                x, y, cells = next(tr_iter[task])
+                x, y = x.to(self.device), y.to(self.device)
+                encoded,_ = self.model(x)
+                adata_all.append(self.pack_anndata(x, cells, encoded, gtruth=y))
             
         adata_all.append(adata_test)    
         
-        adata = adata_all[0].concatenate(adata_all[1:], 
-                                         batch_categories=self.labeled_metadata+[self.unlabeled_metadata])
-        
+        if save_all_embeddings:
+            adata = adata_all[0].concatenate(adata_all[1:], batch_key='experiment',
+                                             batch_categories=self.labeled_metadata+[self.unlabeled_metadata])
+        else:
+            adata = adata_all[0]
+
+            
         adata.obsm['MARS_embedding'] = np.concatenate([a.uns['MARS_embedding'] for a in adata_all])
-        adata.write('result_adata.h5ad')
+        #adata.write('result_adata.h5ad')
         
         return adata
     
@@ -339,37 +348,36 @@ class MARS:
             param.requires_grad = requires_grad
             
             
-    def name_cell_types(self, adata, proto_all, cell_name_mappings, top_match=5, umap_reduce_dim=True, ndim=10):
+    def name_cell_types(self, adata, landmk_all, cell_name_mappings, top_match=5, umap_reduce_dim=True, ndim=10):
         """For each test cluster, estimate sigma and mean. Fit Gaussian distribution with that mean and sigma
-        and calculate the probability of each of the train prototypes to be the neighbor to the mean data point.
-        Normalization is performed with regards to all other prototypes in train."""
+        and calculate the probability of each of the train landmarks to be the neighbor to the mean data point.
+        Normalization is performed with regards to all other landmarks in train."""
         
-        experiments = list(OrderedDict.fromkeys(list(adata.obs['batch'])))
+        experiments = list(OrderedDict.fromkeys(list(adata.obs['experiment'])))
         
         encoded_tr = []
-        proto_tr = []
-        proto_tr_labels = []
+        landmk_tr = []
+        landmk_tr_labels = []
         for idx, exp in enumerate(experiments[:-1]):
-            tiss = adata[adata.obs['batch'] == exp,:]
-            print(tiss)
-        
+            tiss = adata[adata.obs['experiment'] == exp,:]
+            
             if exp==self.unlabeled_metadata: 
                 raise ValueError("Error: Unlabeled dataset needs to be last one in the input anndata object.")
                 
             encoded_tr.append(tiss.obsm['MARS_embedding'])
-            proto_tr.append(proto_all[idx])
-            proto_tr_labels.append(np.unique(tiss.obs['truth_labels']))
+            landmk_tr.append(landmk_all[idx])
+            landmk_tr_labels.append(np.unique(tiss.obs['truth_labels']))
             
-        tiss = adata[adata.obs['batch'] == self.unlabeled_metadata,:]
+        tiss = adata[adata.obs['experiment'] == self.unlabeled_metadata,:]
         ypred_test = tiss.obs['MARS_labels']
         uniq_ytest = np.unique(ypred_test)
         encoded_test = tiss.obsm['MARS_embedding']
         
-        proto_tr_labels = np.concatenate(proto_tr_labels)
+        landmk_tr_labels = np.concatenate(landmk_tr_labels)
         encoded_tr = np.concatenate(encoded_tr)
-        proto_tr = np.concatenate(proto_tr)
+        landmk_tr = np.concatenate([p.cpu() for p in landmk_tr])
         if  umap_reduce_dim:
-            encoded_extend = np.concatenate((encoded_tr, encoded_test, proto_tr))
+            encoded_extend = np.concatenate((encoded_tr, encoded_test, landmk_tr))
             adata = anndata.AnnData(encoded_extend)
             sc.pp.neighbors(adata, n_neighbors=15, use_rep='X')
             sc.tl.umap(adata, n_components=ndim)
@@ -378,8 +386,9 @@ class MARS:
             n2 = n1 + len(encoded_test)
             encoded_tr = encoded_extend[:n1,:]
             encoded_test = encoded_extend[n1:n2,:]
-            proto_tr = encoded_extend[n2:,:]
+            landmk_tr = encoded_extend[n2:,:]
         
+        interp_names = defaultdict(list)
         for ytest in uniq_ytest:
             print('\nCluster label: {}'.format(str(ytest)))
             idx = np.where(ypred_test==ytest)
@@ -388,26 +397,30 @@ class MARS:
             
             sigma  = self.estimate_sigma(subset_encoded)
             
-            prob = np.exp(-np.power(distance.cdist(mean, proto_tr, metric='euclidean'),2)/(2*sigma*sigma))
+            prob = np.exp(-np.power(distance.cdist(mean, landmk_tr, metric='euclidean'),2)/(2*sigma*sigma))
             prob = np.squeeze(prob, 0)
             normalizat = np.sum(prob)
             if normalizat==0:
                 print('Unassigned')
+                interp_names[ytest].append("unassigned")
                 continue
             
             prob = np.divide(prob, normalizat)
             
-            uniq_tr = np.unique(proto_tr_labels)
+            uniq_tr = np.unique(landmk_tr_labels)
             prob_unique = []
-            for cell_type in uniq_tr: # sum probabilities of same prototypes
-                prob_unique.append(np.sum(prob[np.where(proto_tr_labels==cell_type)]))
+            for cell_type in uniq_tr: # sum probabilities of same landmarks
+                prob_unique.append(np.sum(prob[np.where(landmk_tr_labels==cell_type)]))
             
             sorted = np.argsort(prob_unique, axis=0)
             best = uniq_tr[sorted[-top_match:]]
             sortedv = np.sort(prob_unique, axis=0)
             sortedv = sortedv[-top_match:]
             for idx, b in enumerate(best):
+                interp_names[ytest].append((cell_name_mappings[b], sortedv[idx]))
                 print('{}: {}'.format(cell_name_mappings[b], sortedv[idx]))
+                
+        return interp_names
                 
     
     def estimate_sigma(self, dataset):
