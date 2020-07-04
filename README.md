@@ -29,7 +29,7 @@ MARS provides annotations for the unlabeled experimentm as well as embeddings fo
 MARS embeddings can be visualized in the 2D space using UMAP or tSNE. Example embeddings for diaphragm and liver tissues:
 
 <p align="center">
-<img src="https://github.com/mbrbic/mars/blob/master/images/MARS_embeddings.png" width="400" align="center">
+<img src="https://github.com/mbrbic/mars/blob/master/images/MARS_embeddings" width="400" align="center">
 </p>
 
 MARS can generate interpretable names for discovered clusters by calling:
@@ -45,7 +45,7 @@ Example of the MARS naming approach:
 
 Example of running MARS on Tabula Muris dataset in leave-one-tissue-out manner is provided in the [main_TM.py](https://github.com/snap-stanford/mars/blob/master/main_TM.py). We also provide two example notebooks that illustrate MARS on small-scale datasets:
 - [cellbench.ipynb](https://github.com/snap-stanford/mars/blob/master/notebooks/cellbench.ipynb) demonstrates MARS on two CellBench dataset of five sorted lung cancer cell lines sequenced with 10Xand CEL-Seq2 protocols. 
-- [kolod_pollen_bench.ipynb](https://github.com/snap-stanford/mars/blob/master/notebooks/kolod_pollen_bench.ipynb) demonstrates MARS on [Pollen](https://pubmed.ncbi.nlm.nih.gov/25086649/) dataset of diverse human cell types, and [Kolodziejczyk](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4595712/ dataset of mouse pluripotent cells.
+- [kolod_pollen_bench.ipynb](https://github.com/snap-stanford/mars/blob/master/notebooks/kolod_pollen_bench.ipynb) demonstrates MARS on [Pollen](https://pubmed.ncbi.nlm.nih.gov/25086649/) dataset of diverse human cell types, and [Kolodziejczyk](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4595712/) dataset of mouse pluripotent cells.
 
 ## Cross-validation benchmark
 
