@@ -29,7 +29,7 @@ MARS provides annotations for the unlabeled experimentm as well as embeddings fo
 MARS embeddings can be visualized in the 2D space using UMAP or tSNE. Example embeddings for diaphragm and liver tissues:
 
 <p align="center">
-<img src="https://github.com/mbrbic/mars/blob/master/images/MARS_embeddings" width="400" align="center">
+<img src="https://github.com/snap-stanford/mars/blob/master/images/MARS_embeddings.png" width="400" align="center">
 </p>
 
 MARS can generate interpretable names for discovered clusters by calling:
