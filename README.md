@@ -60,6 +60,19 @@ Small-scale example datasets CellBench and Kolodziejczyk/Pollen can be downloade
 
 Trained models for each tissue in Tabula Muris can be downladed from [http://snap.stanford.edu/mars/data/TM_trained_models.tar.gz](http://snap.stanford.edu/mars/data/TM_trained_models.tar.gz).
 
+## Citing
+
+If you find our research useful, please consider citing:
+
+```
+@article{brbic2020mars,
+  title={Discovering Novel Cell Types across Heterogeneous Single-cell Experiments},
+  author={Brbic, Maria and Zitnik, Marinka and Wang, Sheng and Pisco, Angela O and Altman, Russ B and Darmanis, Spyros and Leskovec, Jure},
+  journal={bioRxiv},
+  year={2020},
+}
+```
+
 ## Contact
 Please contact Maria Brbic at mbrbic@cs.stanford.edu for questions.
 
