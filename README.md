@@ -58,7 +58,7 @@ Tabula Muris Senis datasets is from [https://figshare.com/projects/Tabula\_Muris
 Tabula Muris Senis dataset in h5ad format can be downladed at [http://snap.stanford.edu/mars/data/tms-facs-mars.tar.gz](http://snap.stanford.edu/mars/data/tms-facs-mars.tar.gz).
 Small-scale example datasets CellBench and Kolodziejczyk/Pollen can be downloaded at [https://github.com/snap-stanford/mars/blob/master/benchmark_datasets/cellbench_kolod_pollen.tgz](https://github.com/snap-stanford/mars/blob/master/benchmark_datasets/cellbench_kolod_pollen.tgz).
 
-Trained models for each tissue in Tabula Muris can be downladed from [http://snap.stanford.edu/mars/data/TM_trained_models.tar.gz](http://snap.stanford.edu/mars/data/TM_trained_models.tar.gz).
+Pretrained models for each tissue in Tabula Muris can be downladed from [http://snap.stanford.edu/mars/data/TM_trained_models.tar.gz](http://snap.stanford.edu/mars/data/TM_trained_models.tar.gz).
 
 ## Citing
 
@@ -67,7 +67,8 @@ If you find our research useful, please consider citing:
 ```
 @article{brbic2020mars,
   title={Discovering Novel Cell Types across Heterogeneous Single-cell Experiments},
-  author={Brbic, Maria and Zitnik, Marinka and Wang, Sheng and Pisco, Angela O and Altman, Russ B and Darmanis, Spyros and Leskovec, Jure},
+  author={Brbic, Maria and Zitnik, Marinka and Wang, Sheng and Pisco, Angela O and Altman, 
+          Russ B and Darmanis, Spyros and Leskovec, Jure},
   journal={bioRxiv},
   year={2020},
 }
