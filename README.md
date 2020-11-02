@@ -1,6 +1,8 @@
 # MARS
 
-PyTorch implementation of MARS, a meta-learning approach for cell type discovery in heterogenous single-cell data.  MARS annotates known and new cell types by transferring latent cell representations across multiple datasets. It is able to discover cell types that have never been seen before and characterize experiments that are yet unannotated. For a detailed description of the algorithm, please see our preprint [Discovering Novel Cell Types across Heterogeneous Single-cell Experiments](https://www.biorxiv.org/content/10.1101/2020.02.25.960302v1) (2020).
+[Project website](http://snap.stanford.edu/mars)
+
+PyTorch implementation of MARS, a meta-learning approach for cell type discovery in heterogenous single-cell data.  MARS annotates known and new cell types by transferring latent cell representations across multiple datasets. It is able to discover cell types that have never been seen before and characterize experiments that are yet unannotated. For a detailed description of the algorithm, please see our preprint [Discovering Novel Cell Types across Heterogeneous Single-cell Experiments](https://www.nature.com/articles/s41592-020-00979-3) (2020).
 
 
 <p align="center">
@@ -56,7 +58,7 @@ We provide cross-validation benchmark [cross_tissue_generator.py](https://github
 Tabula Muris Senis datasets is from [https://figshare.com/projects/Tabula\_Muris\_Senis/64982](https://figshare.com/projects/Tabula\_Muris\_Senis/64982).
 
 Tabula Muris Senis dataset in h5ad format can be downladed at [http://snap.stanford.edu/mars/data/tms-facs-mars.tar.gz](http://snap.stanford.edu/mars/data/tms-facs-mars.tar.gz).
-Small-scale example datasets CellBench and Kolodziejczyk/Pollen can be downloaded at [https://github.com/snap-stanford/mars/blob/master/benchmark_datasets/cellbench_kolod_pollen.tgz](https://github.com/snap-stanford/mars/blob/master/benchmark_datasets/cellbench_kolod_pollen.tgz).
+Small-scale example datasets CellBench and Kolodziejczyk/Pollen can be downloaded at [http://snap.stanford.edu/mars/data/cellbench_kolod_pollen.tgz](http://snap.stanford.edu/mars/data/cellbench_kolod_pollen.tgz).
 
 Pretrained models for each tissue in Tabula Muris can be downladed from [http://snap.stanford.edu/mars/data/TM_trained_models.tar.gz](http://snap.stanford.edu/mars/data/TM_trained_models.tar.gz).
 
@@ -66,10 +68,10 @@ If you find our research useful, please consider citing:
 
 ```
 @article{brbic2020mars,
-  title={Discovering Novel Cell Types across Heterogeneous Single-cell Experiments},
+  title={MARS: Discovering Novel Cell Types across Heterogeneous Single-cell Experiments},
   author={Brbic, Maria and Zitnik, Marinka and Wang, Sheng and Pisco, Angela O and Altman, 
           Russ B and Darmanis, Spyros and Leskovec, Jure},
-  journal={bioRxiv},
+  journal={Nature Methods},
   year={2020},
 }
 ```
