@@ -36,13 +36,13 @@ def init_dataset():
     pretrain_data = []
     
     for tissue in tissues:
-        tiss = test_maca.get_tissue_data(tissue)
+        tiss_test = test_maca.get_tissue_data(tissue)
         y_test = np.array(tiss_test.obs['truth_labels'], dtype=np.int64)
         
         test_data.append(ExperimentDataset(tiss_test.X.toarray(), tiss_test.obs_names, 
                                            tiss_test.var_names, tissue, y_test))
-        pretrain_data.append(ExperimentDataset(tiss.X.toarray(), tiss.obs_names, 
-                                         tiss.var_names, tissue))
+        pretrain_data.append(ExperimentDataset(tiss_test.X.toarray(), tiss_test.obs_names, 
+                                         tiss_test.var_names, tissue))
         
     IDs_to_celltypes = {v:k for k,v in test_maca.celltype_id_map.items()}
      
