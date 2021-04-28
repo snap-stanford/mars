@@ -351,7 +351,13 @@ class MARS:
     def name_cell_types(self, adata, landmk_all, cell_name_mappings, top_match=5, umap_reduce_dim=True, ndim=10):
         """For each test cluster, estimate sigma and mean. Fit Gaussian distribution with that mean and sigma
         and calculate the probability of each of the train landmarks to be the neighbor to the mean data point.
-        Normalization is performed with regards to all other landmarks in train."""
+        Normalization is performed with regards to all other landmarks in train.
+        adata: anndata object with MARS embeddings returned by function train
+        landmarks: cell type landmarks also returned by function train
+        cell_type_name_map: dictionary with cell type name of previously seen cell types as key, and their cluster idx as value
+        
+        return: interp_names: dictionary with novel cell type cluster index as key and probabilities to all previously seen cell types as value
+        """
         
         experiments = list(OrderedDict.fromkeys(list(adata.obs['experiment'])))
         
