@@ -47,7 +47,7 @@ loompy==2.0.17
 Markdown==3.1.1
 MarkupSafe==1.1.1
 matplotlib==3.0.3
-mistune==0.8.4
+mistune==2.0.3
 mock==3.0.5
 more-itertools==8.0.0
 msgpack==0.6.2
